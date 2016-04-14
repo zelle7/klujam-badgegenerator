@@ -1,17 +1,16 @@
+import com.sun.org.apache.xerces.internal.dom.DeferredElementImpl;
 import org.apache.batik.apps.rasterizer.DestinationType;
 import org.apache.batik.apps.rasterizer.SVGConverter;
 import org.apache.batik.apps.rasterizer.SVGConverterException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.svg.SVGDocument;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -27,20 +26,24 @@ public class Generator {
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, TransformerException, SVGConverterException {
 
+        String directPath = "/home/chzellot/Dropbox/Gamejam2016/";
+
         int jammCount = 0;
         Jammer jammer = new Jammer();
-        jammer.setName("Jammer Jamalius Jamming");
+        jammer.setName("Jammer Jamalius");
         jammer.getSkills().put("art3d", 2);
         jammer.getSkills().put("art2d", 1);
         jammer.getSkills().put("programming", 3);
         jammer.getSkills().put("support", 3);
+        jammer.getSkills().put("management", 1);
+        jammer.getSkills().put("music", 0);
         jammer.setFri(0);
         jammer.setSat(1);
         jammer.setSu(2);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
-        Document document = builder.parse(new File("/home/zelle/Dropbox/Gamejam2016/badge2.svg"));
+        Document document = builder.parse(new File(directPath + "badge2.svg"));
 
 
         NodeList nodeListName = document.getElementsByTagName("tspan");
@@ -54,8 +57,9 @@ public class Generator {
             int skillPoints = jammer.getSkill(icon);
             Node iconNode = findById(nodeListPath, icon + "_icon");
             if (iconNode != null) {
-                if (iconNode.getAttributes() != null && iconNode.getAttributes().getNamedItem("style") != null && skillPoints == 0) {
-                    iconNode.getAttributes().getNamedItem("style").setNodeValue("fill:#808080ff");
+
+                if (iconNode.getAttributes() != null && skillPoints == 0) {
+                    ((DeferredElementImpl) iconNode).setAttribute("style","fill:#808080ff");
                 } else {
                     System.out.println("icon " + icon + " has no style attr");
                 }
@@ -81,7 +85,7 @@ public class Generator {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
         DOMSource source = new DOMSource(document);
-        File outputFile = new File("/home/zelle/Dropbox/Gamejam2016/" + jammCount + ".svg");
+        File outputFile = new File(directPath + jammCount + ".svg");
         if (!outputFile.exists()) {
             outputFile.createNewFile();
         }
@@ -93,15 +97,15 @@ public class Generator {
         transformer.transform(source, result);
 
         // Convert the SVG into PDF
-        File pdfOutputFile = new File("/home/zelle/Dropbox/Gamejam2016/" + jammCount + ".pdf");
+        File pdfOutputFile = new File(directPath + jammCount + ".pdf");
         if (!pdfOutputFile.exists()) {
             pdfOutputFile.createNewFile();
         }
-        SVGConverter converter = new SVGConverter();
-        converter.setDestinationType(DestinationType.PDF);
-        converter.setSources(new String[]{outputFile.toString()});
-        converter.setDst(pdfOutputFile);
-        converter.execute();
+//        SVGConverter converter = new SVGConverter();
+//        converter.setDestinationType(DestinationType.PDF);
+//        converter.setSources(new String[]{outputFile.toString()});
+//        converter.setDst(pdfOutputFile);
+//        converter.execute();
 
         System.out.println("File saved!");
     }
@@ -125,8 +129,7 @@ public class Generator {
         String style = "opacity:1;fill:"+color+";fill-opacity:1;stroke:#000000;stroke-width:0.89533901;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1";
         if (barNode != null) {
             if (barNode.getAttributes() != null && barNode.getAttributes().getNamedItem("style") != null) {
-                barNode.getAttributes().getNamedItem("style").setNodeValue(style);
-                barNode.getAttributes().getNamedItem("style");
+                ((DeferredElementImpl) barNode).setAttribute("style",style);
             } else {
                 System.out.println("barnode has no style attr");
             }
