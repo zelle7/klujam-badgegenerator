@@ -78,7 +78,7 @@ public class Generator {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(document);
-            File outputFile = new File(directPath + jammCount + ".svg");
+            File outputFile = new File(jammCount + ".svg");
             outputFile.deleteOnExit();
             if (!outputFile.exists()) {
                 outputFile.createNewFile();
@@ -91,7 +91,7 @@ public class Generator {
             transformer.transform(source, result);
 
             // Convert the SVG into PDF
-            File pdfOutputFile = new File(directPath + jammCount + ".pdf");
+            File pdfOutputFile = new File(jammCount + ".pdf");
             pdfOutputFile.deleteOnExit();
             if (!pdfOutputFile.exists()) {
                 pdfOutputFile.createNewFile();
@@ -170,7 +170,7 @@ public class Generator {
                     String[] jammerVals = line.split(cvsSplitBy);
                     if(jammerVals.length == 13) {
                         Jammer jammer = new Jammer();
-                        jammer.setName(jammerVals[1]);
+                        jammer.setName(jammerVals[1].trim());
                         jammer.setFri(strToAmountTime(jammerVals[3]));
                         jammer.setSat(strToAmountTime(jammerVals[4]));
                         jammer.setSu(strToAmountTime(jammerVals[5]));
@@ -181,7 +181,7 @@ public class Generator {
                         jammer.setSkill(Jammer.MANAGEMENT, strToAmountSkills(jammerVals[10]));
                         jammer.setSkill(Jammer.PROGRAMMING, strToAmountSkills(jammerVals[11]));
                         jammer.setSkill(Jammer.STORY, strToAmountSkills(jammerVals[12]));
-                        if(jammer.getName().equals("Mathias Lux") || jammer.getName().equals("Christian Zellot") || jammer.getName().equals("Veit Frick") || jammer.getName().equals("Andres Leibetseder")) {
+                        if(jammer.getName().equals("Mathias Lux") || jammer.getName().equals("Christian Zellot") || jammer.getName().equals("Veit") || jammer.getName().equals("Andreas Leibetseder")) {
                             jammer.setSkill(Jammer.SUPPORT, 3);
                         }
                         jammerList.add(jammer);
