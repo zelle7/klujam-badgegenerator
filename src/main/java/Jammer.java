@@ -5,7 +5,17 @@ import java.util.HashMap;
  */
 public class Jammer {
 
-    public static String[] skillNames = new String[]{"2dart", "art3d", "music", "programming", "gamedesign", "story", "management", "support"};
+    public static final String ART2D = "2dart";
+    public static final String ART3D = "art3d";
+    public static final String MUSIC = "music";
+    public static final String PROGRAMMING = "programming";
+    public static final String GAMEDESIGN = "gamedesign";
+    public static final String STORY = "story";
+    public static final String MANAGEMENT = "management";
+    public static final String SUPPORT = "support";
+
+
+    public static String[] skillNames = new String[]{ART2D, ART3D, MUSIC, PROGRAMMING, GAMEDESIGN, STORY, MANAGEMENT , SUPPORT };
 
     private String name;
     private HashMap<String, Integer> skills = new HashMap<String, Integer>();
@@ -43,6 +53,10 @@ public class Jammer {
 
     public Integer getSkill(String key) {
         return skills.get(key);
+    }
+
+    public void setSkill(String key, int val){
+        this.skills.put(key, val);
     }
 
     public void setSkills(HashMap<String, Integer> skills) {
