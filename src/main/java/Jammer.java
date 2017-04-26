@@ -55,8 +55,8 @@ public class Jammer {
         return skills.get(key);
     }
 
-    public void setSkill(String key, int val){
-        this.skills.put(key, val);
+    public void setSkill(String key, boolean val){
+        this.skills.put(key, val ? 3 : 0);
     }
 
     public void setSkills(HashMap<String, Integer> skills) {
