@@ -28,7 +28,7 @@ public class Generator {
 
     public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException, TransformerException, SVGConverterException {
 
-        String directPath = "/home/chzellot/Dropbox/Gamejam2017/";
+        String directPath = "/Gamejam2017/";
         List<Jammer> jammerList = createJammer(directPath + "members.csv");
 
         PDFMergerUtility ut = new PDFMergerUtility();
